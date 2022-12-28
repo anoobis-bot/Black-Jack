@@ -8,7 +8,7 @@ def getCard(player_cards, player_ace_count, player_score, cards, domain_size):
   rand_index = random.randint(0, domain_size - 1)
   player_cards.append(cards[rand_index])
   player_score[0] += cards[rand_index]
-  if cards[rand_index] is ACE_POSITION:
+  if rand_index == ACE_POSITION:
     player_ace_count[0] += 1
 
 def blackJack():
@@ -57,6 +57,13 @@ def blackJack():
     # adding cards if player decided yes
     if (more_cards == 'y' or more_cards == 'Y'):
       getCard(user_cards, user_ace_count, user_score, cards, domain_size)
+    # checks if the user has over OVER_SCORE
+      if (user_score[0] >= OVER_SCORE):
+        # if the user has an ace card, make the ace card as 1. not yet over
+        if (user_ace_count[0] > 0):
+          user_score[0] -= 10
+          user_ace_count[0] -= 1
+      
       print(f'\t Your cards: {user_cards}, current score: {user_score[0]}')
       print(f'\t Computer\'s first card: {comp_cards[0]}')
       
@@ -66,18 +73,18 @@ def blackJack():
 
     # checks if the user has over OVER_SCORE
     if (user_score[0] >= OVER_SCORE):
-      # if the user has an ace card, make the ace card as 1. not yet over
-      if (user_ace_count[0] > 0):
-        user_score[0] -= 10
-        user_ace_count[0] -= 1
-      # if the user has no more ace card, the game is over
-      else:
-        break
+      break
 
         
   ## Adding cards to computer's hand ##
   while (comp_score[0] < 17):
     getCard(comp_cards, comp_ace_count, comp_score, cards, domain_size)
+    # checks if the comp has over OVER_SCORE
+    if (comp_score[0] >= OVER_SCORE):
+      # if the computer has an ace card, make the ace card as 1.
+      if (comp_ace_count[0] > 0):
+        comp_score[0] -= 10
+        comp_ace_count[0] -= 1
 
 
   ## Computing on who wins ##
